@@ -344,22 +344,83 @@
                 display: none;
             }
 
+            #fonctionnalites .feature-card,
+    #objectif .objective-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center; /* Centrer le texte */
+        padding: 15px; /* Ajouter un espace intérieur */
+        box-sizing: border-box; /* Inclure les bordures et le padding dans les dimensions */
+        width: 100%; /* Uniformiser la largeur */
+        max-width: 300px; /* Limiter la largeur pour petits écrans */
+        margin: 0 auto; /* Centrer les cartes horizontalement */
+    }
+
+    #fonctionnalites .feature-grid,
+    #objectif .objective-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Centrer les éléments */
+        gap: 15px; /* Espacement uniforme entre les cartes */
+    }
+
+    #fonctionnalites .feature-card h3,
+    #objectif .objective-card h3 {
+        font-size: 16px; /* Taille uniforme pour les titres */
+        margin-bottom: 10px; /* Espacement sous le titre */
+    }
+
+    #fonctionnalites .feature-card p,
+    #objectif .objective-card p {
+        font-size: 14px; /* Taille uniforme pour les descriptions */
+        line-height: 1.5; /* Hauteur de ligne pour améliorer la lisibilité */
+    }
+}
+
+            #fonctionnalites h2 {
+            margin-top: -50px; /* Réduit l'espace au-dessus du titre */
+            }
+
+            #partenaires .partners-grid {
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Rendre les colonnes adaptatives */
+            gap: 10px; /* Réduire l'espacement entre les photos */
+            }
+
+            #partenaires img {
+                width: 100%; /* Adapter la largeur à la taille du conteneur */
+                height: auto; /* Conserver les proportions */
+            }
+
+
             .hamburger {
                 display: flex;
             }
+
             header {
-        padding: 10px 15px; /* Ajustement pour un rendu plus compact */
-    }
+            padding: 10px 15px; /* Ajustement pour un rendu plus compact */
+            }
 
-    header nav {
-        display: none;
-    }
+            .hero {
+            margin-top: -70px; /* Réduisez l'espace au-dessus */
+            }
+            
+            #objectif {
+                margin-top: -200px; /* Réduisez l'espace au-dessus */
+            }
 
-    header .hamburger {
-        display: flex;
-        margin-left: auto; /* S'assure qu'il reste aligné à droite */
-    }
-}
+            
+
+            header nav {
+                display: none;
+            }
+
+            header .hamburger {
+                display: flex;
+                margin-left: auto; /* S'assure qu'il reste aligné à droite */
+            }
+        
         
 
     </style>
