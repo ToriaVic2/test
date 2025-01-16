@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations - Vigilance Sentinelle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: black;
+            background-color: white;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: black;
+            color: white;
+            z-index: 1000;
+        }
+
+        header .left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header .logo img {
+            height: 50px;
+        }
+
+        header .logo span {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        header nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            margin-left: 200px;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #f39c12;
+        }
+
+        /* Barre de progression */
+        .progress-container {
+            margin: 100px auto 20px;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background-color: #ddd;
+            position: absolute;
+            top: 15px;
+            left: 0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps div {
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-steps div::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            border: 2px solid #ddd;
+        }
+
+        .progress-steps div.completed::before {
+            background-color: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .progress-steps div.active::before {
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
+
+        .progress-steps div span {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .progress-steps div.completed span {
+            color: #ff0000;
+        }
+
+        .progress-steps div.active span {
+            color: #f39c12;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            flex: 2;
+            background-color: #f7f7f7;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-section p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: -10px;
+        }
+
+        .btn-next,
+        .btn-back {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn-next:hover,
+        .btn-back:hover {
+            background-color: #d35400;
+        }
+
+        /* Détails commande */
+        .order-summary {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .order-summary h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .order-summary .summary-box {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-box p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .summary-box .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .bottom-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .bottom-links a {
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function validateEmail() {
+            const email = document.getElementById("email").value;
+            const confirmEmail = document.getElementById("confirm-email").value;
+            const emailError = document.getElementById("email-error");
+
+            if (email !== confirmEmail) {
+                emailError.textContent = "Les emails ne correspondent pas.";
+                return false;
+            } else {
+                emailError.textContent = "";
+                return true;
+            }
+        }
+
+        function validateForm(event) {
+            if (!validateEmail()) {
+                event.preventDefault();
+                return false;
+            }
+
+            // Save data to localStorage
+            const prenom = document.getElementById("prenom").value;
+            const nom = document.getElementById("nom").value;
+            const email = document.getElementById("email").value;
+            const telephone = document.getElementById("telephone").value;
+            const birthdate = document.getElementById("birthdate").value;
+
+            localStorage.setItem("prenom", prenom);
+            localStorage.setItem("nom", nom);
+            localStorage.setItem("email", email);
+            localStorage.setItem("telephone", telephone);
+            localStorage.setItem("birthdate", birthdate);
+
+            return true;
+        }
+
+        function updateOrderSummary() {
+            const membership = localStorage.getItem("membership") || "Adhésion annuelle - 30";
+            const donation = localStorage.getItem("donation") || "0";
+            const total = parseFloat(membership.split("-")[1]) + parseFloat(donation);
+
+            // Save total to localStorage
+            localStorage.setItem("total", total);
+
+            document.getElementById("order-membership").textContent = membership;
+            document.getElementById("order-donation").textContent = `Don : ${donation}€`;
+            document.getElementById("order-total").textContent = `Total : ${total.toFixed(2)}€`;
+        }
+
+        document.addEventListener("DOMContentLoaded", updateOrderSummary);
+
+        function goBack() {
+            window.location.href = "adhesion.html";
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="left">
+            <div class="logo">
+                <img src="W.jpg" alt="Logo Vigilance Sentinelle">
+                <span>Vigilance Sentinelle</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="#objectif">Objectifs</a></li>
+                    <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                    <li><a href="#partenaires">Nos Partenaires</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de progression -->
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+        <div class="progress-steps">
+            <div class="completed">
+                <span>Étape 1 : Choix d'adhésion</span>
+            </div>
+            <div class="active">
+                <span>Étape 2 : Informations</span>
+            </div>
+            <div>
+                <span>Étape 3 : Coordonnées</span>
+            </div>
+            <div>
+                <span>Étape 4 : Récapitulatif</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-section">
+            <h1>Informations personnelles</h1>
+            <form onsubmit="return validateForm(event)" method="POST" action="coordonnées.html">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" required>
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" required>
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required>
+                <label for="confirm-email">Confirmer Email :</label>
+                <input type="email" id="confirm-email" name="confirm-email" required>
+                <span id="email-error" class="error"></span>
+                <label for="telephone">Numéro de téléphone :</label>
+                <input type="tel" id="telephone" name="telephone" required>
+                <label for="birthdate">Date de naissance :</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+                <div>
+                    <button type="button" class="btn-back" onclick="goBack()">Retour</button>
+                    <button type="submit" class="btn-next">Suivant</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="order-summary">
+            <h2>Détails de votre commande</h2>
+            <div class="summary-box">
+                <p id="order-membership">Adhésion annuelle - 30</p>
+                <p id="order-donation">Don : 0</p>
+                <p class="total" id="order-total">Total : 30.00€</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Vigilance Sentinelle. Tous droits réservés.</p>
+        <div class="bottom-links">
+            <a href="mention.html">Mentions Légales</a>
+            <a href="confidentialité.html">Politique de Confidentialité</a>
+            <a href="CGU.html">CGU</a>
+            <a href="cookies.html">Gestion des Cookies</a>
+        </div>
+    </footer>
+</body>
+</html>

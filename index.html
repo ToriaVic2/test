@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <title>Vigilance Sentinelle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            color: black;
+            background-color: white;
+        }
+
+        /* Header styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            color: white;
+            z-index: 1000;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header .logo img {
+            height: 50px;
+        }
+
+        header .logo span {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        header nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #f39c12;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 2000;
+            margin-right: 30px;
+        }
+
+        .hamburger div {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background-color: black;
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: #f39c12;
+        }
+
+        /* Hero section */
+        .hero {
+            margin-top: 200px; /* Espace entre l'en-tête et la vidéo */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: black;
+            background-color: white;
+        }
+
+        .hero video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-top: 30px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            background-color: #f39c12;
+            color: white;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #d35400;
+        }
+
+        /* Section styles */
+        section {
+            padding: 100px 50px;
+            text-align: center;
+        }
+
+        #objectif {
+            background-color: white;
+            color: black;
+        }
+
+        #objectif .objective-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        #objectif .objective-card {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #fonctionnalites {
+            background-color: #f7f7f7;
+        }
+
+        #fonctionnalites .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        #fonctionnalites .feature-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Partenaires Section */
+        #partenaires {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+            gap: 20px;
+        }
+
+        #partenaires .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        #partenaires img {
+            width: 150px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        /* Contact section */
+        #contact {
+            background-color: white;
+            color: black;
+            padding: 0px 50px;
+            border-top: 1px solid #ccc;
+        }
+
+        #contact h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #f7f7f7;
+            padding: 50px 20px 20px 20px;
+            text-align: center;
+        }
+
+        footer .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+
+        footer .footer-logo img {
+            height: 80px;
+        }
+
+        footer .footer-links {
+            text-align: left;
+        }
+
+        footer .footer-links h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: black;
+        }
+
+        footer .footer-links a {
+            display: block;
+            color: black;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        footer .footer-links a:hover {
+            color: #f39c12;
+        }
+
+        footer .footer-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        footer .footer-buttons button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        footer .footer-buttons button:hover {
+            background-color: #d35400;
+        }
+
+        footer .footer-download {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        footer .footer-download img {
+            width: 150px;
+            height: auto;
+        }
+
+        footer .footer-social-wrapper {
+            background: linear-gradient(90deg, #888888, #aaaaaa);
+            padding: 5px 10px;
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        footer .footer-social-wrapper img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        footer .footer-hashtag {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+            header {
+        padding: 10px 15px; /* Ajustement pour un rendu plus compact */
+    }
+
+    header nav {
+        display: none;
+    }
+
+    header .hamburger {
+        display: flex;
+        margin-left: auto; /* S'assure qu'il reste aligné à droite */
+    }
+}
+        
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+
+            hamburger.addEventListener('click', () => {
+                const isMenuOpen = mobileMenu.style.display === 'flex';
+                mobileMenu.style.display = isMenuOpen ? 'none' : 'flex';
+            });
+        });
+    </script>
+</head>
+<body>
+   
+</script>
+</head>
+<body>
+<header>
+        <div class="logo">
+            <img src="W.jpg" alt="Logo Vigilance Sentinelle">
+            <span>Vigilance Sentinelle</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="#objectif">Objectifs</a></li>
+                <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                <li><a href="#partenaires">Nos Partenaires</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="mobile-menu">
+        <a href="index.html">Accueil</a>
+        <a href="#objectif">Objectifs</a>
+        <a href="#fonctionnalites">Fonctionnalités</a>
+        <a href="#partenaires">Nos Partenaires</a>
+        <a href="#contact">Contact</a>
+    </div>
+</header>
+    
+    <!-- Hero Section -->
+    <section id="intro" class="hero">
+        <video controls autoplay muted loop>
+            <source src="presentation.mp4" type="video/mp4">
+            Votre navigateur ne prend pas en charge les vidéos.
+        </video>
+        <div>
+            <h1>Vigilance Sentinelle</h1>
+            <p>Restez informé. Restez en sécurité.</p>
+            <a href="savoir.html" class="btn">En savoir plus</a>
+        </div>
+    </section>
+
+    <!-- Objectifs Section -->
+    <section id="objectif">
+        <h2>Nos Objectifs</h2>
+        <div class="objective-grid">
+            <div class="objective-card">
+                <h3>Fournir des Alertes en Temps Réel</h3>
+                <p>Recevez des alertes immédiates dès qu'une menace est détectée dans votre région.</p>
+            </div>
+            <div class="objective-card">
+                <h3>Identifier les Zones à Risque</h3>
+                <p>Grâce à la géolocalisation, évitez les zones dangereuses et protégez-vous efficacement.</p>
+            </div>
+            <div class="objective-card">
+                <h3>Faciliter la Communication</h3>
+                <p>Contactez les secours rapidement en cas de situation critique. Vigilance Sentinelle inclut une fonctionnalité permettant aux utilisateurs de signaler leur position. </p>
+            </div>
+            <div class="objective-card">
+                <h3>Promouvoir la Vigilance</h3>
+                <p>Sensibilisez les communautés aux dangers pour une meilleure réactivité collective.</p>
+            </div>
+            <div class="objective-card">
+                <h3>Collaborer avec les Autorités</h3>
+                <p>Travaillez main dans la main avec les organismes de sécurité et d'urgence pour maximiser l'impact.</p>
+            </div>
+
+            <div class="objective-card">
+                <h3>Assurer une Utilisation Conviviale et Accessible</h3>
+                <p>Le projet vise à rendre l'application accessible à tous, quel que soit leur niveau technologique, grâce à une interface intuitive et des fonctionnalités simples.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Fonctionnalités Section -->
+    <section id="fonctionnalites">
+        <h2>Fonctionnalités</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Alertes en Temps Réel</h3>
+                <p>Recevez des notifications push immédiates adaptées à votre géolocalisation.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Types de Menaces</h3>
+                <p>Suivez les menaces naturelles, humaines et les incidents locaux spécifiques à votre région.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Géolocalisation</h3>
+                <p>Identifiez les zones à risque et envoyez votre position si nécessaire.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Conseils de Protection</h3>
+                <p>Consultez des informations pratiques pour rester en sécurité et préparer vos réponses.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Mode Hors Ligne</h3>
+                <p>Conservez des conseils et des informations même sans connexion Internet.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Partage d'Alertes</h3>
+                <p>Partagez facilement les alertes via les réseaux sociaux et applications de messagerie.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Personnalisation</h3>
+                <p>Filtrez les notifications pour ne recevoir que les alertes pertinentes.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Historique</h3>
+                <p>Consultez les alertes passées et les statistiques de votre région.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Partenaires Section -->
+    <section id="partenaires">
+        <h2>Nos Partenaires</h2>
+        <div class="partners-grid">
+            <img src="gouv.png" alt="Partenaire 1">
+            <img src="ministere.png" alt="Partenaire 2">
+            <img src="pref.png" alt="Partenaire 3">
+            <img src="departement.png" alt="Partenaire 4">
+            <img src="police.png" alt="Partenaire 5">
+            <img src="gendarme.png" alt="Partenaire 6">
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Pour toute question ou suggestion, contactez-nous à :</p>
+        <p><strong>Email :</strong> contact@vigilancesentinelle.com</p>
+        <p><strong>Adresse :</strong> 31 rue Paul Meurice, 75020 Paris</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="W.jpg" alt="Logo Vigilance Sentinelle">
+            </div>
+
+            <div class="footer-links">
+                <h3>A PROPOS</h3>
+                <a href="mention.html">Mentions Légales</a>
+                <a href="confidentialité.html">Politique de Confidentialité</a>
+                <a href="CGU.html">CGU</a>
+                <a href="cookies.html">Gestion des Cookies</a>
+            </div>
+
+            <div class="footer-buttons">
+                <button onclick="window.location.href='adhesion.html';">ADHÉRER</button>
+                <button onclick="window.open('don.html', '_blank')">FAIRE UN DON</button>
+            </div>
+
+            <div class="footer-download">
+                <a href="https://play.google.com" target="_blank">
+                    <img src="play.png" alt="Télécharger sur Google Play">
+                </a>
+                <a href="https://apps.apple.com" target="_blank">
+                    <img src="apple.png" alt="Télécharger sur App Store">
+                </a>
+            </div>
+        </div>
+
+
+        <div class="footer-social-wrapper">
+            <a href="https://instagram.com" target="_blank"><img src="ins.png" alt="Instagram"></a>
+            <a href="https://tiktok.com" target="_blank"><img src="tik.png" alt="TikTok"></a>
+            <a href="https://facebook.com" target="_blank"><img src="fb.png" alt="Facebook"></a>
+            <a href="https://twitter.com" target="_blank"><img src="x.png" alt="X (Twitter)"></a>
+        </div>
+
+        <div class="footer-hashtag">
+            #vigilancesentinelle
+        </div>
+
+        <p>&copy; 2025 Vigilance Sentinelle. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>

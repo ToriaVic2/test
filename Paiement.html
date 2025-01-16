@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement - Vigilance Sentinelle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: black;
+            background-color: white;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: black;
+            color: white;
+            z-index: 1000;
+        }
+
+        header .left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header .logo img {
+            height: 50px;
+        }
+
+        header .logo span {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        header nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            margin-left: 200px;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #f39c12;
+        }
+
+        /* Container */
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 100px auto 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .payment-section {
+            flex: 2;
+            background-color: #f7f7f7;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-section h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #d35400;
+        }
+
+        .details-section {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .details-section h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .details-section p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .bottom-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .bottom-links a {
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom-links a:hover {
+            text-decoration: underline;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2rem;
+            flex-direction: column;
+        }
+
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 3000;
+        }
+
+        .success-message h2 {
+            color: #27ae60;
+        }
+    </style>
+    <script>
+        function goBack() {
+            window.location.href = "récapitulatif.html";
+        }
+
+        function submitPayment(event) {
+            event.preventDefault();
+            document.querySelector(".loading-overlay").style.display = "flex";
+
+            setTimeout(() => {
+                document.querySelector(".loading-overlay").style.display = "none";
+                document.querySelector(".success-message").style.display = "block";
+
+                setTimeout(() => {
+                    document.querySelector(".success-message").style.display = "none";
+                    localStorage.setItem("notification", "Un email de confirmation a été envoyé.");
+                    window.location.href = "index.html";
+                }, 5000);
+            }, 7000);
+        }
+
+        function formatExpiryDate(input) {
+            const value = input.value.replace(/\D/g, '');
+            const formatted = value.substring(0, 2) + (value.length > 2 ? '/' : '') + value.substring(2, 4);
+            input.value = formatted;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Récupérer le montant total sauvegardé depuis la page informations.html
+            const total = localStorage.getItem("total");
+            if (total) {
+                document.getElementById("payment-total").textContent = `Montant total : ${total}€`;
+            } else {
+                alert("Erreur : Aucun montant trouvé pour le paiement.");
+                window.location.href = "informations.html"; // Redirection si aucun montant n'est trouvé
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="left">
+            <div class="logo">
+                <img src="W.jpg" alt="Logo Vigilance Sentinelle">
+                <span>Vigilance Sentinelle</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="#objectif">Objectifs</a></li>
+                    <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                    <li><a href="#partenaires">Nos Partenaires</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="payment-section">
+            <h1>Informations de paiement</h1>
+            <form class="payment-form" onsubmit="submitPayment(event)">
+                <label for="card-number">Numéro de carte :</label>
+                <input type="text" id="card-number" placeholder="1234 1234 1234 1234" required>
+                <label for="expiry-date">Date d'expiration :</label>
+                <input type="text" id="expiry-date" placeholder="MM/AA" maxlength="5" oninput="formatExpiryDate(this)" required>
+                <label for="cvc">Code de sécurité :</label>
+                <input type="text" id="cvc" placeholder="CVC" required>
+                <div>
+                    <button type="button" class="btn" onclick="goBack()">Retour</button>
+                    <button type="submit" class="btn">Payer</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="details-section">
+            <h2>Montant à payer</h2>
+            <p id="payment-total"></p>
+            <h2>Plateforme de paiement 100% sécurisée</h2>
+            <p>
+                Toutes les informations bancaires pour traiter ce paiement sont totalement sécurisées. Grâce au cryptage SSL de vos données bancaires, vous êtes assuré de la fiabilité de vos transactions.
+            </p>
+            <img src="visa.png" alt="Visa" style="height: 30px;">
+            <img src="cb.png.jfif" alt="Carte Bancaire" style="height: 30px;">
+            <img src="master.png" alt="Mastercard"style="height: 30px;"  >
+            
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Vigilance Sentinelle. Tous droits réservés.</p>
+        <div class="bottom-links">
+            <a href="mention.html">Mentions Légales</a>
+            <a href="confidentialité.html">Politique de Confidentialité</a>
+            <a href="CGU.html">CGU</a>
+            <a href="cookies.html">Gestion des Cookies</a>
+        </div>
+    </footer>
+
+    <div class="loading-overlay">
+        <div>Chargement...</div>
+    </div>
+
+    <div class="success-message">
+        <h2>Transaction réussie !</h2>
+        <p>Vous allez être redirigé vers l'accueil.</p>
+    </div>
+</body>
+</html>
+

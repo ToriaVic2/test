@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Récapitulatif - Vigilance Sentinelle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: black;
+            background-color: white;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: black;
+            color: white;
+            z-index: 1000;
+        }
+
+        header .left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header .logo img {
+            height: 50px;
+        }
+
+        header .logo span {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        header nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            margin-left: 200px;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #f39c12;
+        }
+
+        /* Barre de progression */
+        .progress-container {
+            margin: 100px auto 20px;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background-color: #ddd;
+            position: absolute;
+            top: 15px;
+            left: 0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps div {
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-steps div::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            border: 2px solid #ddd;
+        }
+
+        .progress-steps div.completed::before {
+            background-color: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .progress-steps div.active::before {
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
+
+        .progress-steps div span {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .progress-steps div.completed span {
+            color: #ff0000;
+        }
+
+        .progress-steps div.active span {
+            color: #f39c12;
+        }
+
+        /* Container */
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .recap-section {
+            background-color: #f7f7f7;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .recap-section h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .recap-section p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .details-box {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .details-box p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            text-align: right;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #d35400;
+        }
+
+        .checkbox-container {
+            margin-top: 20px;
+        }
+
+        .checkbox-container label {
+            font-size: 14px;
+            color: #555;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .bottom-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .bottom-links a {
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function updateRecap() {
+            const prenom = localStorage.getItem("prenom") || "";
+            const nom = localStorage.getItem("nom") || "";
+            const email = localStorage.getItem("email") || "";
+            const adresse = localStorage.getItem("adresse") || "";
+            const ville = localStorage.getItem("ville") || "";
+            const codePostal = localStorage.getItem("codePostal") || "";
+            const pays = localStorage.getItem("pays") || "";
+            const membership = localStorage.getItem("membership") || "Adhésion annuelle - 30€";
+            const donation = localStorage.getItem("donation") || "0";
+            const total = parseFloat(membership.split("-")[1]) + parseFloat(donation);
+
+            document.getElementById("recap-name").textContent = `${prenom} ${nom}`;
+            document.getElementById("recap-email").textContent = email;
+            document.getElementById("recap-membership").textContent = membership;
+            document.getElementById("recap-donation").textContent = `Don supplémentaire : ${donation}€`;
+            document.getElementById("recap-address").innerHTML = `${adresse}<br>${codePostal} ${ville}<br>${pays}`;
+            document.getElementById("recap-total").textContent = `Total : ${total.toFixed(2)}€`;
+        }
+
+        function goBack() {
+            window.location.href = "coordonnées.html";
+        }
+
+        function goToPayment() {
+            window.location.href = "paiement.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", updateRecap);
+    </script>
+</head>
+<body>
+    <header>
+        <div class="left">
+            <div class="logo">
+                <img src="W.jpg" alt="Logo Vigilance Sentinelle">
+                <span>Vigilance Sentinelle</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="#objectif">Objectifs</a></li>
+                    <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                    <li><a href="#partenaires">Nos Partenaires</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Barre de progression -->
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+        <div class="progress-steps">
+            <div class="completed">
+                <span>Étape 1 : Choix d'adhésion</span>
+            </div>
+            <div class="completed">
+                <span>Étape 2 : Informations</span>
+            </div>
+            <div class="completed">
+                <span>Étape 3 : Coordonnées</span>
+            </div>
+            <div class="active">
+                <span>Étape 4 : Récapitulatif</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="recap-section">
+            <h1>Récapitulatif</h1>
+            <div class="details-box">
+                <h2>Adhésion</h2>
+                <p id="recap-name"></p>
+                <p id="recap-email"></p>
+                <p id="recap-membership"></p>
+                <p id="recap-donation"></p>
+            </div>
+            <div class="details-box">
+                <h2>Coordonnées</h2>
+                <p id="recap-address"></p>
+            </div>
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" required> J'ai lu et j'accepte les <a href="CGU.html">Conditions Générales d'Utilisation</a>.
+                </label>
+                <label>
+                    <input type="checkbox" required> J'accepte la <a href="confidentialité.html">Politique de confidentialité</a>.
+                </label>
+            </div>
+            <div class="total" id="recap-total"></div>
+        </div>
+
+        <div class="btn-container">
+            <button class="btn" onclick="goBack()">Retour</button>
+            <button class="btn" onclick="goToPayment()">Suivant</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Vigilance Sentinelle. Tous droits réservés.</p>
+        <div class="bottom-links">
+            <a href="mention.html">Mentions Légales</a>
+            <a href="confidentialité.html">Politique de Confidentialité</a>
+            <a href="CGU.html">CGU</a>
+            <a href="cookies.html">Gestion des Cookies</a>
+        </div>
+    </footer>
+</body>
+</html>
+
